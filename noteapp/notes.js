@@ -3,14 +3,14 @@ const { title } = require("process")
 const chalk = require('chalk')
 
 
-const  getNotes = function(){
+const  getNotes = ()=>{
     console.log("My Notes ..... ")
 }
 
-const addNote = function(title, body){
+const addNote = (title, body)=>{
 
     notes=loadNotes()
-    const duplicateNotes=notes.filter(function(note){
+    const duplicateNotes=notes.filter((note)=>{
         return note.title === title
     }) 
     console.log(duplicateNotes,"dupplicate notes")
@@ -43,13 +43,13 @@ const removeNote=(title)=>{
     }
     
 }
-const saveNote=function(notes){
+const saveNote=(notes)=>{
 
     const dataStringfied= JSON.stringify(notes)
     fs.writeFileSync("notes.json",dataStringfied)
 
 }
-const loadNotes=function(){
+const loadNotes=()=>{
     try {
         const notes=fs.readFileSync("notes.json")
         return JSON.parse(notes.toString())
@@ -58,9 +58,21 @@ const loadNotes=function(){
         return []
     }
 }
+
+const listNotes=()=>{
+    const notes= loadNotes()
+    
+    console.log(chalk.inverse.blue("Your Notes"))
+
+    notes.forEach(element => {
+        console.log(chalk.greenBright.inverse(element.title))
+    });
+}
+
 module.exports =
 {
     getNotes: getNotes,
     addNote:addNote,
-    removeNote:removeNote
+    removeNote:removeNote,
+    listNotes:listNotes
 }
